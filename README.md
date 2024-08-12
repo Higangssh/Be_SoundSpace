@@ -7,6 +7,8 @@
 ### Prerequisites
 You need operate this command
 ```bash
+cd ./src/main/resources
+## copy 
 cp application-dbDev.sample.yml application-dbDev.yml
 cp application-cors.sample.yml application-cors.yml
 ```
