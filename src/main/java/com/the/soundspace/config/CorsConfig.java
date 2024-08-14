@@ -18,8 +18,8 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                //.allowedOrigins(corsConfig.getAllowedOrigins())
-                .allowedOrigins("*")
+                .allowedOriginPatterns("http://*:3000")  // 3000 포트로 오는 모든 IP 요청 허용
+                .allowedOrigins(corsConfig.getAllowedOrigins())
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);

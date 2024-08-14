@@ -1,4 +1,4 @@
-package com.the.soundspace.common.entities;
+package com.the.soundspace.common.domain.entities;
 
 import com.the.soundspace.common.enums.ReservationStatus;
 import com.the.soundspace.user.model.entities.UserEntity;

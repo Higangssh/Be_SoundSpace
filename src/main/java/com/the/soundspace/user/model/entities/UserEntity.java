@@ -1,6 +1,6 @@
 package com.the.soundspace.user.model.entities;
 
-import com.the.soundspace.common.entities.BaseEntity;
+import com.the.soundspace.common.domain.entities.BaseEntity;
 import com.the.soundspace.common.enums.UserType;
 import jakarta.persistence.*;
 import lombok.Getter;

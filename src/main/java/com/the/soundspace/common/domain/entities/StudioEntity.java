@@ -1,8 +1,11 @@
-package com.the.soundspace.common.entities;
+package com.the.soundspace.common.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Getter
@@ -37,4 +40,7 @@ public class StudioEntity {
 
     @Column(name = "price_per_hour", nullable = false)
     private double pricePerHour;
+
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<StudioFacilityEntity> studioFacilities = new HashSet<>();
 }

@@ -1,5 +1,8 @@
 package com.the.soundspace.config;
 
+import com.the.soundspace.auth.security.handler.CustomFailHandler;
+import com.the.soundspace.auth.security.handler.CustomSuccessHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,7 +14,11 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomSuccessHandler successHandler;
+    private final CustomFailHandler failHandler;
 
     private final String[] whiteList = {
             "/h2-console/**",
@@ -35,6 +42,11 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
 
         );
+        http.oauth2Login(o -> {
+            o.successHandler(successHandler);
+            o.failureHandler(failHandler);
+            o.permitAll();
+        });
 
         //session 끄기
         http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

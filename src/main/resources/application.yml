@@ -7,7 +7,7 @@ spring:
     active:
       - dbDev
       - cors
-
+      - oauth
 server:
   port: 9000
   servlet:

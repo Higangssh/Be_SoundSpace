@@ -1,4 +1,4 @@
-package com.the.soundspace.common.entities;
+package com.the.soundspace.common.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.the.soundspace.common.entities;
+package com.the.soundspace.common.domain.entities;
 
 import com.the.soundspace.common.enums.PaymentStatus;
 import jakarta.persistence.*;
