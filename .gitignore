@@ -39,3 +39,4 @@ out/
 src/main/resources/application-dbDev.yml
 src/main/resources/application-cors.yml
 src/main/resources/application-oauth.yml
+src/main/resources/application-jwt.yml
