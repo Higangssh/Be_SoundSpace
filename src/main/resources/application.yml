@@ -8,6 +8,7 @@ spring:
       - dbDev
       - cors
       - oauth
+      - jwt
 server:
   port: 9000
   servlet:

@@ -1,4 +1,4 @@
-package com.the.soundspace.token;
+package com.the.soundspace.token.domain;
 
 
 import com.auth0.jwt.JWT;
@@ -24,7 +24,7 @@ public class JwtToken {
 
     }
 
-    public String createJwt(Long memberId){
+    public String createAccessJwt(Long memberId){
         String token;
         try {
             Algorithm algorithm = Algorithm.HMAC256(config.getAccessToken().getSecret());
@@ -41,7 +41,7 @@ public class JwtToken {
 
     }
 
-   public Long decodedToken(String token) {
+   public Long decodedAccessToken(String token) {
         DecodedJWT decodedJWT;
         try {
             Algorithm algorithm = Algorithm.HMAC256(config.getAccessToken().getSecret());

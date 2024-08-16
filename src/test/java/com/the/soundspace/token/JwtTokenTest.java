@@ -2,8 +2,8 @@ package com.the.soundspace.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.mysema.commons.lang.Assert;
 import com.the.soundspace.config.properties.JwtPropertiesConfig;
+import com.the.soundspace.token.domain.JwtToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ class JwtTokenTest {
         Long memberId = 123L;
 
         //when
-        String token = jwtToken.createJwt(memberId);
+        String token = jwtToken.createAccessJwt(memberId);
 
         //then
         assertNotNull(token);
@@ -57,10 +57,10 @@ class JwtTokenTest {
     void testDecodedToken_ValidToken() {
         // Given
         Long memberId = 123L;
-        String token= jwtToken.createJwt(memberId);
+        String token= jwtToken.createAccessJwt(memberId);
 
         // When
-        Long decodedMemberId = jwtToken.decodedToken(token);
+        Long decodedMemberId = jwtToken.decodedAccessToken(token);
         System.out.println("memberId: " + memberId);
         System.out.println("decodedMemberId: " + decodedMemberId);
 
@@ -75,7 +75,7 @@ class JwtTokenTest {
         String invalidToken = "invalid-token";
 
         // When: We attempt to decode the invalid token
-        Long decodedMemberId = jwtToken.decodedToken(invalidToken);
+        Long decodedMemberId = jwtToken.decodedAccessToken(invalidToken);
 
         // Then: Decoding should fail and return null
         assertNull(decodedMemberId);
@@ -93,7 +93,7 @@ class JwtTokenTest {
                 .sign(algorithm);
 
         // When: We attempt to decode the token with the correct secret
-        Long decodedMemberId = jwtToken.decodedToken(tokenWithWrongSecret);
+        Long decodedMemberId = jwtToken.decodedAccessToken(tokenWithWrongSecret);
 
         // Then: Decoding should fail and return null
         assertNull(decodedMemberId);

@@ -1,8 +1,8 @@
 package com.the.soundspace.auth.security.handler;
 
-import com.the.soundspace.auth.oauth2.GoogleUser;
-import com.the.soundspace.auth.oauth2.KaKaoUser;
 import com.the.soundspace.auth.oauth2.OauthUserInfo;
+import com.the.soundspace.user.model.entities.UserEntity;
+import com.the.soundspace.user.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,36 +21,29 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
+    private final UserService userService;
 
+    private static final String[] nouns = {"꽃", "나무", "바다", "하늘", "별", "빛", "음악", "사랑", "행복", "꿈", "모래", "강", "바람", "햇살", "눈", "비", "숲", "감성", "평화", "세상"};
+    private static final String[] adjectives = {"화려한", "창의적인", "열정적인", "자유로운", "활기찬", "격렬한", "쾌활한", "우아한", "현명한", "우아한", "정신없는", "신비로운", "풍부한", "안정된", "다채로운", "유쾌한", "진실한", "영리한", "열정적인", "차분한"};
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         if(authentication instanceof OAuth2AuthenticationToken oauthToken) {
-            String registrationId = oauthToken.getAuthorizedClientRegistrationId();
-            OAuth2User user = oauthToken.getPrincipal();
-            Map<String, Object> attributes = user.getAttributes();
-
-            // 팩토리를 사용해 OAuth2UserInfo 객체 생성
-            OauthUserInfo userInfo=getOAuth2UserInfo(registrationId, attributes);
-            String email =  userInfo.getEmail();
-            String name =  userInfo.getName();
-
-            System.out.println("email: "+email);
-            System.out.println("name: "+name);
-
-
+            processOAuth2Authentication(oauthToken);
         }
+
 
 
         response.sendRedirect("https://naver.com");
 
     }
-    private static OauthUserInfo getOAuth2UserInfo(String registrationId, Map<String, Object> attributes) {
-        if (registrationId.equalsIgnoreCase("google")) {
-            return new GoogleUser(attributes);
-        } else if (registrationId.equalsIgnoreCase("kakao")) {
-            return new KaKaoUser(attributes);
-        } else {
-            throw new IllegalArgumentException("Login with " + registrationId + " is not supported yet.");
-        }
+
+    private void processOAuth2Authentication(OAuth2AuthenticationToken oauthToken) {
+        String registrationId = oauthToken.getAuthorizedClientRegistrationId();
+        OAuth2User user = oauthToken.getPrincipal();
+        Map<String, Object> attributes = user.getAttributes();
+
+        OauthUserInfo userInfo = OauthUserInfo.userInfo(registrationId, attributes);
+        UserEntity newUser = userService.createUser(userInfo.getEmail());
     }
+
 }
